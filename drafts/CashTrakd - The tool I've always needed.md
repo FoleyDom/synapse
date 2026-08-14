@@ -9,6 +9,9 @@ canonical_url: https://domfoley.com/writings/cashtrakd-the-tool-ive-always-neede
 tags:
   - devops
   - career
+category:
+  - devops
+  - career
 ---
 ## Let Me Tell You About -- *CashTrakd*
 
