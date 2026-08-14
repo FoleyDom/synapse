@@ -7,12 +7,8 @@ reading_time: 8
 slug: cashtrakd-the-tool-ive-always-needed
 canonical_url: https://domfoley.com/writings/cashtrakd-the-tool-ive-always-needed
 tags:
-  - dev
-  - laravel
-  - php
-  - nextjs
-  - typescript
-  - growth
+  - devops
+  - career
 ---
 ## Let Me Tell You About -- *CashTrakd*
 
@@ -25,4 +21,4 @@ The long version is there are great tools out there that already exist! Rocketmo
 - [x] Create an app that will improve my financial wellbeing and potentially others
 - [x] Use new tools and continue learning new techniques while mastering a craft I'm very passionate about
 
-I'm building this tool for me. Including features and UI flows that'll make creating or editing or reviewing my budget easier and more streamlined. 
+I'm building this tool for me. Including features and UI flows that'll make creating or editing or reviewing my budget easier and more streamlined.
