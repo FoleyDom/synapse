@@ -10,7 +10,6 @@ tags:
   - devops
   - career
 category:
-  - devops
   - career
 ---
 ## Let Me Tell You About -- *CashTrakd*
