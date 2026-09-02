@@ -33,8 +33,8 @@ Some of the recent commits in this repo are literally just me testing whether a 
 
 ### Cross-Posting Without an API I Don't Control
 
-LinkedIn and X don't have auto-posting worth the API review overhead for something this small, so that part stays manual on purpose — I run [a script](https://claude.ai/writings/refactoring-announce-php-into-a-class) that generates ready-to-paste copy for both, with a character count, so I'm not guessing whether the X post fits.
+LinkedIn and X don't have auto-posting worth the API review overhead for something this small, so that part stays manual on purpose — I run [a script](/writings/refactoring-announce-php-into-a-class) that generates ready-to-paste copy for both, with a character count, so I'm not guessing whether the X post fits.
 
 ### The Real Win
 
-None of this made me a better writer. What it did was remove every excuse between “this draft feels done” and “this is live”, which turns out to have been most of what was stopping me. [The retrospective post](https://claude.ai/writings/six-month-retrospective-the-human-element-of-engineering) I just finished writing is the first real test of whether that's true — it sat unfinished for over a month before this pipeline existed to actually push it out the door.
+None of this made me a better writer. What it did was remove every excuse between “this draft feels done” and “this is live”, which turns out to have been most of what was stopping me. [The retrospective post](/writings/six-month-retrospective-the-human-element-of-engineering) I just finished writing is the first real test of whether that's true — it sat unfinished for over a month before this pipeline existed to actually push it out the door.
