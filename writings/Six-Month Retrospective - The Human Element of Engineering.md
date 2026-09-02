@@ -9,6 +9,7 @@ tags:
   - php
   - dev
   - career
+category: career
 title: Six-Month Retrospective - The Human Element of Engineering
 ---
 ## Time Flies — How We Use It Is Up To Us
