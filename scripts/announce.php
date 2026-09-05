@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-const DEBUG_CONST = FALSE; //* Set to FALSE to disable debug output
+const DEBUG_CONST = TRUE; //* Set to FALSE to disable debug output
 
 class BlogPostAnnouncer
 {
    /**
     * Function to run the script from the command line.
     *
-    * @param array<string> $argv
+    * @param array<string> $argv Command line arguments, where $argv[1] is the path to the post file and subsequent elements are flags.
     *
     * @return void
     */
-   public static function main(array $argv): void
+   public static function main(array $argv = []): void
    {
-      $filePath = $argv[1] ?? null;
+      $filePath = $argv[1] ?? NULL;
       self::_debug_output(message: "File path: {$filePath}", exit: FALSE, exit_string: '');
 
       $flags = array_slice($argv, 2);
@@ -40,10 +40,18 @@ class BlogPostAnnouncer
       self::_debug_output(message: "Data: " . json_encode($data, JSON_PRETTY_PRINT), exit: FALSE, exit_string: '');
       self::_debug_output(message: "Body length: " . strlen($body), exit: FALSE, exit_string: '');
 
-      if (empty($data['canonical_url']))
+      //* Check for required frontmatter fields and output warnings if any are missing
+      $empty_check = match (TRUE)
       {
-         fwrite(STDERR, "warning: no canonical_url set in frontmatter — add one before cross-posting anywhere.\n");
-      }
+         empty($data['title']) => fwrite(STDERR, "warning: no title set in frontmatter — add one before cross-posting anywhere.\n"),
+         empty($data['tags']) => fwrite(STDERR, "warning: no tags set in frontmatter — add at least one before cross-posting anywhere.\n"),
+         empty($data['description']) => fwrite(STDERR, "warning: no description set in frontmatter — add one before cross-posting anywhere.\n"),
+         empty($data['canonical_url']) => fwrite(STDERR, "warning: no canonical_url set in frontmatter — add one before cross-posting anywhere.\n"),
+         default => NULL
+      };
+
+      //* If any of the required fields are missing, output a debug message and exit
+      !empty($empty_check) ? self::_debug_output(message: $empty_check, exit: TRUE, exit_string: '') : $empty_check;
 
       echo "\n=== LinkedIn ===\n\n";
       echo self::build_linked_in_post($data) . "\n";
@@ -74,18 +82,38 @@ class BlogPostAnnouncer
          throw new RuntimeException('No frontmatter block found (expected --- ... --- at the top of the file).');
       }
 
-      [, $fmBlock, $body] = $matches;
+      [, $fm_block, $body] = $matches;
+      $lines = preg_split('/\r?\n/', $fm_block);
       $data = [];
 
-      foreach (preg_split('/\r?\n/', $fmBlock) as $line)
+      for ($i = 0; $i < count($lines); $i++)
       {
+         $line = $lines[$i];
+
          if (trim($line) === '')
          {
             continue;
          }
 
+         if ($line === 'tags:' || str_starts_with($line, 'tags:'))
+         {
+            while ($i + 1 < count($lines) && str_starts_with(trim($lines[$i + 1]), '-'))
+            {
+               $i++;
+               $tag = trim(trim($lines[$i]), '- ');
+               $tag = trim($tag, "\"'");
+
+               if ($tag !== '')
+               {
+                  $data['tags'][] = $tag;
+               }
+            }
+
+            continue;
+         }
+
          $idx = strpos($line, ':');
-         if ($idx === false)
+         if (!$idx)
          {
             continue;
          }
@@ -97,11 +125,13 @@ class BlogPostAnnouncer
          if ((str_starts_with($value, '[') && str_ends_with($value, ']')) || (strpos($value, 'tags:') !== FALSE))
          {
             $items = array_map(
-               fn(string $item): string => trim(trim($item), "\"'"),
-               explode(',', substr($value, 1, -1))
+               fn(string $item): string => trim(
+                  trim($item), "\"'"),
+                  explode(',', substr($value, 1, -1)
+               )
             );
 
-            $data[$key] = array_values(array_filter($items, fn(string $i) => $i !== ''));
+            $data[$key] = array_values(array_filter($items, fn(string $i): bool => $i !== ''));
          }
          else
          {
@@ -326,7 +356,7 @@ class BlogPostAnnouncer
     *
     * @return void
     */
-   static function _debug_output(string $message, bool $exit = FALSE, string $exit_string = ''): void
+   static function _debug_output(string|int $message, bool $exit = FALSE, string $exit_string = ''): void
    {
       if (!DEBUG_CONST)
       {
