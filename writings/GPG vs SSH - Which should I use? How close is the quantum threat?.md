@@ -3,7 +3,7 @@ Description: Setting up commit signing turned into a longer detour than expected
 Title: Signing My Commits - SSH, GPG, and a Question I Can't Actually Answer Yet
 Date: 2026-09-05
 Author: Dom Foley
-Read_Time: 4
+Reading_Time: 4
 Slug: github-commit-signing-ssh-gpg-quantum
 Canonical_url: https://domfoley.com/writings/github-commit-signing-ssh-gpg-quantum
 Tags:
